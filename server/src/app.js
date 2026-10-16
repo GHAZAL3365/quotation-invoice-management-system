@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const healthRoutes = require("./routes/healthRoutes");
+const clientRoutes = require("./routes/clientRoutes");
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
 
@@ -32,7 +33,7 @@ const apiLimiter = rateLimit({
 app.use("/api", apiLimiter);
 
 app.use("/api/v1/health", healthRoutes);
-
+app.use("/api/v1/clients", clientRoutes);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
