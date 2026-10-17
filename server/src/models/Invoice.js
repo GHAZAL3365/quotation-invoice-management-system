@@ -50,6 +50,12 @@ const invoiceSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
     items: {
       type: [invoiceItemSchema],
       required: true,
