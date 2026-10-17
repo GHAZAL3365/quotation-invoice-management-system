@@ -1,70 +1,66 @@
-const Client = require("../models/Client");
 
-exports.createClient = async (req, res) => {
-  try {
-    const {
-      clientName,
-      companyName,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      country,
-      postalCode,
-    } = req.body;
+const clientService = require("../services/clientService");
 
-    // Validate required field
-    if (!clientName?.trim()) {
-      return res.status(400).json({
-        success: false,
-        message: "Client name is required",
-      });
-    }
+const createClient = async (req, res) => {
+  const client = await clientService.createClient(req.body);
 
-    // Create client with all supported fields
-    const client = await Client.create({
-      clientName: clientName.trim(),
-      companyName,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      country,
-      postalCode,
-    });
-
-    return res.status(201).json({
-      success: true,
-      message: "Client created successfully",
-      data: client,
-    });
-  } catch (error) {
-    console.error("Create client error:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create client",
-    });
-  }
+  return res.status(201).json({
+    success: true,
+    message: "Client created successfully",
+    data: client,
+  });
 };
 
-exports.getClients = async (req, res) => {
-  try {
-    const clients = await Client.find().sort({ createdAt: -1 });
+const getClients = async (req, res) => {
+  const result = await clientService.getClients(req.query);
 
-    return res.status(200).json({
-      success: true,
-      count: clients.length,
-      data: clients,
-    });
-  } catch (error) {
-    console.error("Get clients error:", error);
+  return res.status(200).json({
+    success: true,
+    message: "Clients retrieved successfully",
+    data: result.clients,
+    pagination: result.pagination,
+  });
+};
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch clients",
-    });
-  }
+const getClientById = async (req, res) => {
+  const client = await clientService.getClientById(req.params.id);
+
+  return res.status(200).json({
+    success: true,
+    message: "Client retrieved successfully",
+    data: client,
+  });
+};
+
+
+const updateClient = async (req, res) => {
+  const client = await clientService.updateClient(
+    req.params.id,
+    req.body
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: "Client updated successfully",
+    data: client,
+  });
+};
+
+const deleteClient = async (req, res) => {
+  await clientService.deleteClient(req.params.id);
+
+  return res.status(200).json({
+    success: true,
+    message: "Client deleted successfully",
+  });
+};
+
+
+
+module.exports = {
+  createClient,
+  getClients,
+  getClientById,
+  updateClient,
+  deleteClient,
 };

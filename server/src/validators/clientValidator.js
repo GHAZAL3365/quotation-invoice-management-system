@@ -46,16 +46,34 @@ const clientIdSchema = z.object({
   id: z.string().regex(/^[a-f\d]{24}$/i, "Invalid client ID"),
 });
 
+
 const listClientsQuerySchema = z
   .object({
     page: z.coerce.number().int().min(1).default(1),
     limit: z.coerce.number().int().min(1).max(100).default(10),
     search: z.string().trim().max(100).default(""),
+    isActive: z
+      .enum(["true", "false"])
+      .transform((value) => value === "true")
+      .optional(),
   })
   .strict();
+
+  
+  const updateClientSchema = createClientSchema
+  .partial()
+  .refine(
+    (data) => Object.keys(data).length > 0,
+    {
+      message: "At least one field is required to update",
+    }
+  );
+
+
 
 module.exports = {
   createClientSchema,
   clientIdSchema,
   listClientsQuerySchema,
+  updateClientSchema
 };
