@@ -30,7 +30,7 @@ const getClients = async ({
     isActive,
 }) => {
     const filter = {
-        isDeleted: false,
+        isDeleted: { $ne: true },
     };
 
     page = Number(page);
@@ -151,6 +151,5 @@ module.exports = {
     updateClient,
     deleteClient,
 };
-
 
 

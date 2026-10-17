@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const invoiceItemSchema = new mongoose.Schema(
@@ -6,6 +7,7 @@ const invoiceItemSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxlength: 500,
     },
     quantity: {
       type: Number,
@@ -13,6 +15,11 @@ const invoiceItemSchema = new mongoose.Schema(
       min: 0.01,
     },
     rate: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    amount: {
       type: Number,
       required: true,
       min: 0,
@@ -27,76 +34,76 @@ const invoiceSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
-
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
       required: true,
     },
-
     invoiceDate: {
       type: Date,
       required: true,
+      default: Date.now,
     },
-
     dueDate: {
       type: Date,
-      default: null,
+      required: true,
     },
-
     items: {
       type: [invoiceItemSchema],
+      required: true,
       validate: {
         validator: (items) => items.length > 0,
-        message: "At least one invoice item is required",
+        message: "An invoice must contain at least one item",
       },
     },
-
     subtotal: {
       type: Number,
       required: true,
       min: 0,
     },
-
     discount: {
       type: Number,
       default: 0,
       min: 0,
     },
-
     taxRate: {
       type: Number,
       default: 0,
       min: 0,
       max: 100,
     },
-
     taxAmount: {
       type: Number,
       required: true,
       min: 0,
     },
-
     total: {
       type: Number,
       required: true,
       min: 0,
     },
-
     paidAmount: {
       type: Number,
       default: 0,
       min: 0,
     },
-
     status: {
       type: String,
       enum: ["Draft", "Unpaid", "Partially Paid", "Paid"],
-      default: "Draft",
+      default: "Unpaid",
+    },
+    notes: {
+      type: String,
+      trim: true,
+      maxlength: 1000,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
 module.exports = mongoose.model("Invoice", invoiceSchema);
