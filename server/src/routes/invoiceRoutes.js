@@ -1,6 +1,6 @@
 const express = require("express");
 const validateRequest = require("../validators/validateRequest");
-const {createInvoiceSchema, updateInvoiceSchema} = require("../validators/invoiceValidator");
+const {createInvoiceSchema, updateInvoiceSchema, invoiceIdSchema} = require("../validators/invoiceValidator");
 const {
   createInvoice,
   getInvoices,
