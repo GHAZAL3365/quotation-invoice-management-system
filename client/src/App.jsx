@@ -6,6 +6,9 @@ import AppLayout from "./layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Clients from "./pages/Clients";
+import Invoices from "./pages/Invoices";
+import InvoiceDetails from "./pages/InvoiceDetails";
+import InvoiceForm from "./pages/InvoiceForm";
 
 function PlaceholderPage({ title }) {
   return (
@@ -29,11 +32,11 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/" element={<Dashboard />} />
 
-            <Route path="/clients" element={<Clients />} />
+              <Route path="/clients" element={<Clients />} />
 
               <Route
                 path="/invoices"
-                element={<PlaceholderPage title="Invoices" />}
+                element={<Invoices />}
               />
 
               <Route
@@ -45,6 +48,11 @@ export default function App() {
                 path="/settings"
                 element={<PlaceholderPage title="Settings" />}
               />
+
+              <Route path="/invoices" element={<Invoices />} />
+              <Route path="/invoices/new" element={<InvoiceForm />} />
+              <Route path="/invoices/:id" element={<InvoiceDetails />} />
+              <Route path="/invoices/:id/edit" element={<InvoiceForm />} />
             </Route>
           </Route>
         </Routes>
