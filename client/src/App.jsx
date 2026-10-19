@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Clients from "./pages/Clients";
 
 function PlaceholderPage({ title }) {
   return (
@@ -28,10 +29,7 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/" element={<Dashboard />} />
 
-              <Route
-                path="/clients"
-                element={<PlaceholderPage title="Clients" />}
-              />
+            <Route path="/clients" element={<Clients />} />
 
               <Route
                 path="/invoices"

@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import api from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext(null);
 
@@ -33,6 +34,7 @@ function getErrorMessage(error) {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const login = async (credentials) => {
     try {
