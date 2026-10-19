@@ -39,7 +39,7 @@ const safe = (value, fallback = "—") =>
   escapeHtml(value == null || value === "" ? fallback : value);
 
 const renderInvoiceTemplate = (invoice) => {
-  const client = invoice.client || {};
+  const client = invoice.clientId || invoice.client || {};
   const items = Array.isArray(invoice.items) ? invoice.items : [];
 
   const total = Number(invoice.total || 0);

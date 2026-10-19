@@ -106,9 +106,9 @@ export default function InvoiceForm() {
           const invoice = getInvoice(unwrap(invoiceResponse));
 
           const invoiceClientId =
-            typeof invoice.client === "object"
-              ? invoice.client?._id
-              : invoice.client ?? invoice.clientId;
+            typeof (invoice.clientId ?? invoice.client) === "object"
+              ? (invoice.clientId ?? invoice.client)?._id
+              : invoice.clientId ?? invoice.client;
 
           if (!cancelled) {
             setForm({
@@ -355,6 +355,7 @@ export default function InvoiceForm() {
               Due date
               <input
                 type="date"
+                required
                 min={form.invoiceDate}
                 value={form.dueDate}
                 onChange={(event) =>

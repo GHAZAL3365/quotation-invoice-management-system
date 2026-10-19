@@ -7,6 +7,7 @@ const healthRoutes = require("./routes/healthRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const authRoutes = require("./routes/authRoutes");
+const quotationRoutes = require("./routes/quotationRoutes");
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
 
@@ -41,6 +42,7 @@ app.use("/api/v1/health", healthRoutes);
 app.use("/api/v1/clients", clientRoutes);
 app.use("/api/v1/invoices", invoiceRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/quotations", quotationRoutes); 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 

@@ -163,8 +163,9 @@ export default function InvoiceDetails() {
   if (!invoice) return null;
 
   const client =
-    invoice.client && typeof invoice.client === "object"
-      ? invoice.client
+    (invoice.clientId ?? invoice.client) &&
+    typeof (invoice.clientId ?? invoice.client) === "object"
+      ? invoice.clientId ?? invoice.client
       : null;
 
   const clientName =

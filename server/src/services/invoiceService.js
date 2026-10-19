@@ -5,7 +5,7 @@ const generateInvoiceNumber = require("../utils/generateInvoiceNumber");
 
 const createInvoice = async (invoiceData) => {
     const {
-        client,
+        clientId,
         invoiceDate,
         dueDate,
         items,
@@ -16,7 +16,7 @@ const createInvoice = async (invoiceData) => {
 
     // Check that the client exists and is not soft-deleted.
     const existingClient = await Client.findOne({
-        _id: client,
+        _id: clientId,
         isDeleted: { $ne: true },
     });
 
@@ -68,7 +68,7 @@ const createInvoice = async (invoiceData) => {
 
     const invoice = await Invoice.create({
         invoiceNumber,
-        client,
+        clientId,
         invoiceDate,
         dueDate,
         items: calculatedItems,
@@ -95,14 +95,14 @@ const getInvoices = async ({
   };
 
   if (clientId) {
-    filter.client = clientId;
+    filter.clientId = clientId;
   }
 
   const skip = (page - 1) * limit;
 
   const [invoices, total] = await Promise.all([
     Invoice.find(filter)
-      .populate("client")
+      .populate("clientId")
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 }),
@@ -122,11 +122,11 @@ const getInvoices = async ({
 };
 
 const getInvoiceById = async (invoiceId) => {
-    const invoice = await Invoice.findById({
+    const invoice = await Invoice.findOne({
         _id: invoiceId,
         isDeleted: { $ne: true },
     })
-        .populate("client", "clientName email phone billingAddress")
+        .populate("clientId", "clientName email phone billingAddress")
         .lean();
 
     if (!invoice) {
@@ -161,7 +161,7 @@ const updateInvoice = async (invoiceId, invoiceData) => {
     }
 
     const {
-        client,
+        clientId,
         invoiceDate,
         dueDate,
         items,
@@ -170,7 +170,7 @@ const updateInvoice = async (invoiceId, invoiceData) => {
         notes,
     } = invoiceData;
 
-    const updatedClientId = client ?? invoice.client;
+    const updatedClientId = clientId ?? invoice.clientId;
 
     const existingClient = await Client.findOne({
         _id: updatedClientId,
@@ -237,7 +237,7 @@ const updateInvoice = async (invoiceId, invoiceData) => {
         (taxableAmount + taxAmount).toFixed(2)
     );
 
-    invoice.client = updatedClientId;
+    invoice.clientId = updatedClientId;
     invoice.invoiceDate = updatedInvoiceDate;
     invoice.dueDate = updatedDueDate;
     invoice.items = calculatedItems;

@@ -85,7 +85,7 @@ function formatDate(value) {
 }
 
 function getClientName(invoice) {
-  const client = invoice.client;
+  const client = invoice.clientId ?? invoice.client;
 
   if (client && typeof client === "object") {
     return client.clientName ?? client.name ?? "Unknown client";

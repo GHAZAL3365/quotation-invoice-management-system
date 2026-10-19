@@ -3,7 +3,7 @@ const { z } = require("zod");
 
 const createInvoiceSchema = z
     .object({
-        client: z.string().regex(/^[a-f\d]{24}$/i, "Invalid client ID"),
+        clientId: z.string().regex(/^[a-f\d]{24}$/i, "Invalid client ID"),
         invoiceDate: z.coerce.date(),
         dueDate: z.coerce.date(),
 
@@ -51,7 +51,7 @@ const listInvoicesQuerySchema = z
 
 const updateInvoiceSchema = z
     .object({
-        client: z.string().regex(/^[a-f\d]{24}$/i, "Invalid client ID").optional(),
+        clientId: z.string().regex(/^[a-f\d]{24}$/i, "Invalid client ID").optional(),
         invoiceDate: z.coerce.date().optional(),
         dueDate: z.coerce.date().optional(),
         items: z

@@ -36,7 +36,7 @@ const invoiceSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    client: {
+    clientId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
       required: true,
