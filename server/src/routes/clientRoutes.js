@@ -1,6 +1,8 @@
 const express = require("express");
 const { createClientSchema, listClientsQuerySchema, clientIdSchema, updateClientSchema } = require("../validators/clientValidator");
 const validateRequest = require("../validators/validateRequest");
+const authenticate = require("../middleware/authenticate");
+const authorizeRole = require("../middleware/authorizeRoles");
 const {
   createClient,
   getClients,
@@ -12,10 +14,10 @@ const {
 
 const router = express.Router();
 
-router.post("/", validateRequest(createClientSchema), createClient);
-router.get("/", validateRequest(listClientsQuerySchema, "query"), getClients);
-router.get("/:id", validateRequest(clientIdSchema, "params"), getClientById);
-router.put("/:id", validateRequest(clientIdSchema, "params"), validateRequest(updateClientSchema), updateClient);
-router.delete("/:id", validateRequest(clientIdSchema, "params"), deleteClient);
+router.post("/", authenticate, authorizeRole("admin"), validateRequest(createClientSchema), createClient);
+router.get("/", authenticate, authorizeRole("admin"), validateRequest(listClientsQuerySchema, "query"), getClients);
+router.get("/:id", authenticate, validateRequest(clientIdSchema, "params"), getClientById);
+router.put("/:id", authenticate, authorizeRole("admin"), validateRequest(clientIdSchema, "params"), validateRequest(updateClientSchema), updateClient);
+router.delete("/:id", authenticate, authorizeRole("admin"), validateRequest(clientIdSchema, "params"), deleteClient);
 
 module.exports = router;

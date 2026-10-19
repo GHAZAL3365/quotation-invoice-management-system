@@ -11,15 +11,20 @@ const createInvoice = async (req, res) => {
     });
 };
 
-const getInvoices = async (req, res) => {
-    const result = await invoiceService.getInvoices(req.query);
+const getInvoices = async (req, res, next) => {
+  try {
+    const result = await invoiceService.getInvoices(
+      req.validatedQuery || req.query
+    );
 
     return res.status(200).json({
-        success: true,
-        message: "Invoices retrieved successfully",
-        data: result.invoices,
-        pagination: result.pagination,
+      success: true,
+      message: "Invoices retrieved successfully",
+      data: result,
     });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getInvoiceById = async (req, res) => {

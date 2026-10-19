@@ -16,6 +16,7 @@ const createToken = (user) => {
       expiresIn: process.env.JWT_EXPIRES_IN || "15m",
       issuer: "ultrakey-invoice-api",
       audience: "ultrakey-invoice-app",
+       algorithm: "HS256"
     }
   );
 };

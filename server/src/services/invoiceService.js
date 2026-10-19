@@ -85,29 +85,40 @@ const createInvoice = async (invoiceData) => {
     return invoice;
 };
 
-const getInvoices = async ({ page = 1, limit = 10 }) => {
-    const skip = (page - 1) * limit;
+const getInvoices = async ({
+  page = 1,
+  limit = 10,
+  clientId,
+}) => {
+  const filter = {
+    isDeleted: { $ne: true },
+  };
 
-    const [invoices, total] = await Promise.all([
-        Invoice.find({ isDeleted: { $ne: true } })
-            .populate("client", "clientName email")
-            .sort({ createdAt: -1, _id: -1 })
-            .skip(skip)
-            .limit(limit)
-            .lean(),
+  if (clientId) {
+    filter.client = clientId;
+  }
 
-        Invoice.countDocuments({ isDeleted: { $ne: true } }),
-    ]);
+  const skip = (page - 1) * limit;
 
-    return {
-        invoices,
-        pagination: {
-            total,
-            page,
-            limit,
-            totalPages: Math.ceil(total / limit),
-        },
-    };
+  const [invoices, total] = await Promise.all([
+    Invoice.find(filter)
+      .populate("client")
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 }),
+
+    Invoice.countDocuments(filter),
+  ]);
+
+  return {
+    invoices,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 const getInvoiceById = async (invoiceId) => {

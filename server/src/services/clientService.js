@@ -28,6 +28,7 @@ const getClients = async ({
     limit = 10,
     search,
     isActive,
+    user
 }) => {
     const filter = {
         isDeleted: { $ne: true },
@@ -35,6 +36,8 @@ const getClients = async ({
 
     page = Number(page);
     limit = Number(limit);
+
+   
 
     if (search) {
         filter.$or = [
