@@ -13,8 +13,8 @@ const createAdmin = async () => {
     throw new Error("Missing required admin setup environment variables");
   }
 
-  if (ADMIN_PASSWORD.length < 12 || Buffer.byteLength(ADMIN_PASSWORD, "utf8") > 72) {
-    throw new Error("Admin password must be 12–72 bytes long");
+  if (ADMIN_PASSWORD.length < 8 || Buffer.byteLength(ADMIN_PASSWORD, "utf8") > 72) {
+    throw new Error("Admin password must be 8–72 bytes long");
   }
 
   await mongoose.connect(MONGODB_URI);
