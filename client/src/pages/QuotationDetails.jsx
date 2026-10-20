@@ -9,14 +9,10 @@ import {
   UserRound,
   FileText,
 } from "lucide-react";
-
-import {
-  getQuotationById,
-  downloadQuotationPdf,
-} from "../api/quotationApi";
+import quotationService from "../api/quotationApi";
 
 function unwrap(response) {
-  return response?.data?.data ?? response?.data ?? {};
+  return response?.data?.data ?? response?.data ?? response ?? {};
 }
 
 function getQuotation(result) {
@@ -98,7 +94,7 @@ export default function QuotationDetails() {
       setError("");
 
       try {
-        const response = await getQuotationById(id);
+        const response = await quotationService.getQuotationById(id);
         const result = unwrap(response);
         const data = getQuotation(result);
 
@@ -134,7 +130,7 @@ export default function QuotationDetails() {
     setDownloading(true);
 
     try {
-      const response = await downloadQuotationPdf(id);
+      const response = await quotationService.downloadQuotationPdf(id);
 
       // Supports an API function that returns an Axios blob response.
       const blob =

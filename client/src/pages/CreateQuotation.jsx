@@ -4,12 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 
 import { getClients } from "../api/clientApi";
-import {
-  createQuotation,
-  getQuotationById,
-  updateQuotation,
-} from "../api/quotationApi";
-
+import quotationService from "../api/quotationApi";
 const today = () => new Date().toISOString().split("T")[0];
 
 const emptyItem = () => ({
@@ -29,7 +24,7 @@ const initialForm = () => ({
 });
 
 function unwrap(response) {
-  return response?.data?.data ?? response?.data ?? {};
+  return response?.data?.data ?? response?.data ?? response ?? {};
 }
 
 function getMessage(error, fallback) {
@@ -134,7 +129,7 @@ export default function QuotationForm() {
         }
 
         if (isEditing) {
-          const quotationResponse = await getQuotationById(id);
+          const quotationResponse = await quotationService.getQuotationById(id);
           const quotationResult = unwrap(quotationResponse);
           const quotation = getQuotation(quotationResult);
 
@@ -340,9 +335,10 @@ export default function QuotationForm() {
 
     try {
       if (isEditing) {
-        await updateQuotation(id, payload);
+        await quotationService.updateQuotation(id, payload);
       } else {
-        await createQuotation(payload);
+
+        await quotationService.createQuotation(payload);
       }
 
       navigate("/quotations", {
