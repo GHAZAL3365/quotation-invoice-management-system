@@ -9,6 +9,9 @@ import Clients from "./pages/Clients";
 import Invoices from "./pages/Invoices";
 import InvoiceDetails from "./pages/InvoiceDetails";
 import InvoiceForm from "./pages/InvoiceForm";
+import Quotations from "./pages/Quotations";
+import CreateQuotation from "./pages/CreateQuotation";
+import QuotationDetails from "./pages/QuotationDetails";
 
 function PlaceholderPage({ title }) {
   return (
@@ -39,6 +42,8 @@ export default function App() {
                 element={<Invoices />}
               />
 
+              <Route path="/quotations" element={<Quotations />} />
+
               <Route
                 path="/payments"
                 element={<PlaceholderPage title="Payments" />}
@@ -53,6 +58,11 @@ export default function App() {
               <Route path="/invoices/new" element={<InvoiceForm />} />
               <Route path="/invoices/:id" element={<InvoiceDetails />} />
               <Route path="/invoices/:id/edit" element={<InvoiceForm />} />
+
+              <Route path="/quotations/new" element={<CreateQuotation />} />
+              <Route path="/quotations/:id/edit" element={<CreateQuotation />} />
+              <Route path="/quotations/:id" element={<QuotationDetails />} />
+
             </Route>
           </Route>
         </Routes>

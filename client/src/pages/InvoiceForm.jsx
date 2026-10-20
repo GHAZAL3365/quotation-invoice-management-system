@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 
-import api from "../api/api";
+
 import { getClients } from "../api/clientApi";
 import {
   createInvoice,

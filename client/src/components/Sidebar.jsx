@@ -13,8 +13,10 @@ const navigation = [
   { label: "Dashboard", path: "/", icon: LayoutDashboard },
   { label: "Clients", path: "/clients", icon: Users },
   { label: "Invoices", path: "/invoices", icon: FileText },
+  { label: "Quotations", path: "/quotations", icon: FileText },
   { label: "Payments", path: "/payments", icon: Wallet },
   { label: "Settings", path: "/settings", icon: Settings },
+
 ];
 
 export default function Sidebar() {
